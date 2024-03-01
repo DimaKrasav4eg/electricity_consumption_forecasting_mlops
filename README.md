@@ -16,7 +16,7 @@ The data is a csv file with columns:
 
 ## Model
 I will use the CNN-LSTM model
-optimezer - Adam
-loss-func - MAE
+* optimezer - Adam
+* loss-func - MAE
 ## The method of prediction
 ![prediction_and_usage](/images/prediction_and_usage.png)
