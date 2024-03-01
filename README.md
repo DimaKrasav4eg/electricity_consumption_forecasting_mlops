@@ -1,6 +1,6 @@
 # Electricity consumption forecasting
 ## Problem statement
-The task is to determine the electricity consumption of a building based on a known weather forecast.
+The task is to determine the electricity consumption of a building based on a known date and weather prediction.
 Knowing about the energy consumption of a building in the future allows you to get rid of unexpected expenses, as well as implement methods to optimize consumption in advance.
 ## Data
 To begin with, I will use the dataset from [Kaggle](https://www.kaggle.com/competitions/copy-of-challenge23/data). 
