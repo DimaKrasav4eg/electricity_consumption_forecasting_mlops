@@ -1,0 +1,14 @@
+# data
+*.csv
+.dvs
+
+# model checkpoints
+checkpoints
+*.ckpt
+*.pt
+
+# cache
+__pycache__
+
+# jupyter notebooks
+*.ipynb
