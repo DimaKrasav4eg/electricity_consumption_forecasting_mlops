@@ -25,15 +25,18 @@ class ElForecastDataset(Dataset):
         return (len(self.data) - self.seq_length) // self.step
 
     def __getitem__(self, idx):
+        assert isinstance(idx, int), "Index must be an integer"
+
         
         start_idx = idx * self.step
         end_idx = start_idx + self.seq_length
 
 
         features = self.data[start_idx : end_idx]
-        target = self.data[end_idx]
+        target = self.data[start_idx+1 : end_idx+1, -1]
 
         features = (features - self.mean) / self.std
+        target   = (target - self.mean[-1]) / self.std[-1]
 
         features_tensor = torch.tensor(features)
         target_tensor = torch.tensor(target)
@@ -42,3 +45,7 @@ class ElForecastDataset(Dataset):
     
     def get_nfeatures(self):
         return self.nfeatures
+    def get_mean(self):
+        return self.mean
+    def get_std(self):
+        return self.std
