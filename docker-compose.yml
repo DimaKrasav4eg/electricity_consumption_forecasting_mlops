@@ -1,0 +1,10 @@
+version: '3.3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    command: sh -c "python train.py && python infer.py"
