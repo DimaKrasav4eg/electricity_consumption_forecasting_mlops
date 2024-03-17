@@ -1,9 +1,10 @@
 import numpy as np
 import pandas as pd
+import torch
 
 MIN_BAROPRESSURE = 950
 
-def data_preprocessing(df):
+def data_preprocessing(df, fill_target=False, target_name=None):
 
     df = df.drop(df[df['baropressure'] < MIN_BAROPRESSURE].index)
     df = df.dropna()
@@ -25,8 +26,18 @@ def data_preprocessing(df):
     df['hour'] = df['Date'].dt.hour
     df['day_of_week'] = df['Date'].dt.dayofweek
 
+    if fill_target:
+        df[target_name] = 0
+
     df = df[['Date', 'month', 'day', 'hour', 'baropressure', \
              'humidity', 'temperature', 'winddirection', \
              'windspeed', 'n', 'day_of_week', 'ST']]
     return df
 
+def normalize_data(data, mean=None, std=None):
+    if mean is None:
+        mean = torch.mean(data, dim=0)
+    if std is None:
+        std = torch.std(data, dim=0)
+    normalized_data = (data - mean) / std
+    return normalized_data, (mean, std)
