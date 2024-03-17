@@ -8,9 +8,8 @@ packages = [{include = "electricity_consumption_forecasting_mlops"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-torch = "1.9.*"
+torch = "1.10.*"
 torchvision = "*"
-lightning = "^1"
 pandas = "2.*"
 matplotlib = "3.*"
 
