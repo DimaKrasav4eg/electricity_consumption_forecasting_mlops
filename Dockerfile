@@ -12,8 +12,4 @@ COPY --from=builder requirements.txt ./
 RUN python -m pip install --no-cache-dir -r requirements.txt
 
 COPY elforecast ./elforecast
-COPY infer.py ./
-COPY train.py ./
-
-RUN poetry env info && \
-    poetry shell
+COPY infer.py train.py ./
