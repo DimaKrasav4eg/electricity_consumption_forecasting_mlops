@@ -50,7 +50,6 @@ def train(model, train_loader, val_loader, opt, criterion, \
         val_batch_history = 0
         for X_batch, y_batch in train_loader:
             y_pred = model(X_batch)
-            # print(y_pred)
             loss = criterion(y_pred.view(-1), y_batch.view(-1))
             opt.zero_grad()
             loss.backward()
@@ -95,14 +94,15 @@ def save_model(model, path, name):
 
 DATA_PATH = '.data/train.csv'
 SEQ_LEN = 24
+NFEATURES = 11
+OUT_FUTURES = 64
 OUT_CHANNEL_1 = 128
 OUT_CHANNEL_2 = 256
-OUT_CHANNEL_3 = 512
 HIDDEN_SIZE = 1024
 NUM_LAYERS = 3
 BATCH_SIZE = 50
 MODEL_SAVE_PATH = 'checkpoints'
-DATASET = ElForecastDataset(DATA_PATH, SEQ_LEN, step=SEQ_LEN//4)
+DATASET = ElForecastDataset(DATA_PATH, SEQ_LEN, step=SEQ_LEN//2)
 
 if __name__ == "__main__":
     train_ratio = 0.8
@@ -118,9 +118,9 @@ if __name__ == "__main__":
     train_loader, val_loader, test_loader = \
         get_tvt_dataloader(dataset, [train_ratio, val_ratio, test_ratio], BATCH_SIZE)
 
-    model = ConvLSTM(SEQ_LEN, OUT_CHANNEL_1, 
+    model = ConvLSTM(NFEATURES, SEQ_LEN, OUT_FUTURES, 
+                                OUT_CHANNEL_1, 
                                 OUT_CHANNEL_2,
-                                # OUT_CHANNEL_3,
                                 HIDDEN_SIZE, 
                                 NUM_LAYERS)
 

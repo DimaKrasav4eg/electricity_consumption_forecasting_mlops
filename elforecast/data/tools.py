@@ -4,7 +4,7 @@ import torch
 
 MIN_BAROPRESSURE = 950
 
-def data_preprocessing(df, fill_target=False, target_name=None):
+def data_preprocessing(df, fill_target=False, target_name=None, fill_value=None):
 
     df = df.drop(df[df['baropressure'] < MIN_BAROPRESSURE].index)
     df = df.dropna()
@@ -19,7 +19,10 @@ def data_preprocessing(df, fill_target=False, target_name=None):
     df = df_dates.merge(df, how='outer', left_index=True, right_on='Date')
     df = df.sort_values(by='Date')
 
-    df = df.fillna(df.mean())
+    if fill_value is None:
+        df = df.fillna(df.mean())
+    else:
+        df = df.fillna(fill_value)
 
     df['month'] = df['Date'].dt.month
     df['day'] = df['Date'].dt.day
