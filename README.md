@@ -1,4 +1,26 @@
 # Electricity consumption forecasting
+## Project structure
+```bash
+
+.
+├── docker-compose.yml
+├── Dockerfile
+├── elforecast
+│   ├── data
+│   │   ├── __init__.py
+│   │   ├── dataset.py
+│   │   └── tools.py
+│   └── models
+│       └── __init__.py
+│       ├── conv_lstm.py
+├── images
+│   └── prediction_and_usage.png
+├── infer.py
+├── poetry.lock
+├── pyproject.toml
+├── README.md
+└── train.py
+```
 ## Problem statement
 The task is to determine the electricity consumption of a building based on a known date and weather prediction.
 Knowing about the energy consumption of a building in the future allows you to get rid of unexpected expenses, as well as implement methods to optimize consumption in advance.
