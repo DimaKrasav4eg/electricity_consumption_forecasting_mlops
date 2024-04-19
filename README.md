@@ -3,8 +3,15 @@
 ```bash
 
 .
+├── .data
+│   ├── test.csv.dvc
+│   └── train.csv.dvc
 ├── docker-compose.yml
 ├── Dockerfile
+├── .dvc
+│   ├── config
+│   └── .gitignore
+├── .dvcignore
 ├── elforecast
 │   ├── data
 │   │   ├── __init__.py
@@ -25,7 +32,7 @@
 The task is to determine the electricity consumption of a building based on a known date and weather prediction.
 Knowing about the energy consumption of a building in the future allows you to get rid of unexpected expenses, as well as implement methods to optimize consumption in advance.
 ## Data
-To begin with, I will use the dataset from [Kaggle](https://www.kaggle.com/competitions/copy-of-challenge23/data). 
+To begin with, I will use the dataset from [Kaggle](https://www.kaggle.com/competitions/copy-of-challenge23/data).
 The data is a csv file with columns:
 * Date (date in POSIX format)
 * baropressure (data from the weather station)
