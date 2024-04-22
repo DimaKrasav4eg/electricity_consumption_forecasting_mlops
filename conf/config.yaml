@@ -1,0 +1,41 @@
+data:
+  train_path: '.data/train.csv'
+  test_path: '.data/test.csv'
+  submit_path: '.data/submition.csv'
+  ratio:
+    train: 0.8
+    val: 0.1
+    test: 0.1
+  lseq: 24
+  step: 6
+
+model:
+  name: 'cnn_latm.pt'
+  params:
+    conv:
+      nlayers: 3
+      out_channels: [128, 256, 512]
+      kernels: [2, 2, 2]
+      strides: [1, 1, 1]
+      paddings: [1, 1, 0]
+      max_pool:
+        kernel_size: [2, 2, 2]
+        stride: [2, 2, 2]
+      dropout: 0.1
+
+    rnn:
+      hidden_size: 512
+      nlayers: 3
+      dropout: 0.1
+
+    lin:
+      nlayers: 3
+      out_sizes: [128, 32]
+      dropout: 0.1
+
+
+training:
+  batch_size: 50
+  lr: 1e-3
+  n_epochs: 50
+  save_path: 'checkpoints'

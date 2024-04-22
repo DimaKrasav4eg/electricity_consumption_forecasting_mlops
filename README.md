@@ -3,6 +3,8 @@
 ```bash
 
 .
+├── conf
+│   └── config.yaml
 ├── .data
 │   ├── test.csv.dvc
 │   └── train.csv.dvc

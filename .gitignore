@@ -11,3 +11,6 @@ __pycache__
 
 # jupyter notebooks
 *.ipynb
+
+# hydra outputs
+outputs
