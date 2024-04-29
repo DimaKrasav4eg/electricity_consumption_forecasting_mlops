@@ -19,7 +19,7 @@ def data_preprocessing(
     df = df.sort_values(by=date)
     date_col = df[date]
     df = df.drop(columns=[date])
-    # df = df.interpolate('akima', limit_direction='both', axis=0)
+    df = df.interpolate("akima", limit_direction="both", axis=0)
     df[date] = date_col
     df = df.fillna(df.median())
     df["month"] = df[date].dt.month

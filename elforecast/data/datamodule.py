@@ -29,7 +29,6 @@ class ElForecastDataModule(pl.LightningDataModule):
             self.cfg.data.used_features,
             fill_target=True,
         )
-        print(df_test.shape)
         data = df.values.astype(np.float32)
         train_ratio = self.cfg["data"]["ratio"]["train"]
         train_data, val_data = train_test_split(
@@ -42,7 +41,6 @@ class ElForecastDataModule(pl.LightningDataModule):
         train_data = scaler.fit_transform(train_data)
         val_data = scaler.transform(val_data)
         test_data = scaler.transform(test_data)
-        print(scaler.mean_[-1], scaler.scale_[-1])
 
         self.train_dataset = ElForecastDataset(
             train_data,

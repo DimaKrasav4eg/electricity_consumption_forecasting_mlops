@@ -21,24 +21,24 @@ data:
   nfeats: 11
   use_target_in_params: False
   hours_in_month: 720
-  hours_in_day: 24
+  hours_in_day: 168
 
 model:
   params:
     conv:
-      n_channels: [128, 256]
-      kernels: [4, 4]
-      padding: [0, 1]
+      n_channels: [128, 256, 512]
+      kernels: [3, 4, 5]
+      padding: [1, 1, 2]
       maxpool: [2, 2]
       dropout: 0.1
 
     lin:
-      size: [256, 128]
+      size: [128, 64]
       dropout: 0.1
 
 
 training:
-  batch_size: 64
+  batch_size: 32
   lr: 1e-3
   lr_factor: 1
   clip_val: 0.5
@@ -50,10 +50,10 @@ training:
   num_workers: 7
 
 artifacts:
-  experiment_name: 'conv'
+  experiment_name: 'conv_3'
   checkpoint:
     dirpath: 'checkpoints'
-    filename: 'best'
+    filename: 'last-v6'
     save_top_k: 1
     every_n_epochs: 10
     save_last: True

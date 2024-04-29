@@ -47,7 +47,7 @@ The data is a csv file with columns:
 * n - the number of meters installed for the specified time period from which energy consumption data was collected
 
 ## Model
-I will use the CNN-LSTM model
+I will use the CNN model
 * optimezer - Adam
 * loss-func - MAE
 ## The method of prediction

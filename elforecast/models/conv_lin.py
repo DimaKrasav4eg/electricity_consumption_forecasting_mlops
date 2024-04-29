@@ -33,10 +33,23 @@ class ConvLin(pl.LightningModule):
             nn.Conv1d(
                 in_channels=self.cfg.model.params.conv.n_channels[0],
                 out_channels=self.cfg.model.params.conv.n_channels[1],
-                kernel_size=self.cfg.model.params.conv.kernels[0],
+                kernel_size=self.cfg.model.params.conv.kernels[1],
                 padding=self.cfg.model.params.conv.padding[1],
             ),
             nn.BatchNorm1d(self.cfg.model.params.conv.n_channels[1]),
+            nn.ReLU(),
+            nn.MaxPool1d(
+                kernel_size=self.cfg.model.params.conv.maxpool[0],
+                stride=self.cfg.model.params.conv.maxpool[1],
+            ),
+            nn.Dropout(self.cfg.model.params.conv.dropout),
+            nn.Conv1d(
+                in_channels=self.cfg.model.params.conv.n_channels[1],
+                out_channels=self.cfg.model.params.conv.n_channels[2],
+                kernel_size=self.cfg.model.params.conv.kernels[2],
+                padding=self.cfg.model.params.conv.padding[2],
+            ),
+            nn.BatchNorm1d(self.cfg.model.params.conv.n_channels[2]),
             nn.ReLU(),
             nn.MaxPool1d(
                 kernel_size=self.cfg.model.params.conv.maxpool[0],
@@ -64,7 +77,6 @@ class ConvLin(pl.LightningModule):
 
     def forward(self, x):
         out = self.cnn(x)
-        # print(out.shape)
         out = self.lin(out)
         return out
 
