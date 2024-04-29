@@ -1,43 +1,40 @@
-import numpy as np
+import holidays
 import pandas as pd
-import torch
 
-MIN_BAROPRESSURE = 950
 
-def data_preprocessing(df, fill_target=False, target_name=None):
+def data_preprocessing(
+    df: pd.DataFrame,
+    date: str,
+    target_name: str,
+    used_features: list,
+    fill_target: bool = False,
+):
+    df[date] = pd.to_datetime(df[date], format="%Y-%m-%dT%H:%M:%SZ")
 
-    df = df.drop(df[df['baropressure'] < MIN_BAROPRESSURE].index)
-    df = df.dropna()
-
-    df['Date'] = pd.to_datetime(df['Date'])
-
-    start_date = df['Date'].min()
-    end_date = df['Date'].max()
-    all_dates = pd.date_range(start=start_date, end=end_date)
+    start_date = df[date].min()
+    end_date = df[date].max()
+    all_dates = pd.date_range(start=start_date, end=end_date, freq="H")
     df_dates = pd.DataFrame(index=all_dates)
+    df = df_dates.merge(df, how="inner", left_index=True, right_on=date)
+    df = df.sort_values(by=date)
+    date_col = df[date]
+    df = df.drop(columns=[date])
+    # df = df.interpolate('akima', limit_direction='both', axis=0)
+    df[date] = date_col
+    df = df.fillna(df.median())
+    df["month"] = df[date].dt.month
+    df["day"] = df[date].dt.day
+    df["hour"] = df[date].dt.hour
+    df["day_of_week"] = df[date].dt.dayofweek
 
-    df = df_dates.merge(df, how='outer', left_index=True, right_on='Date')
-    df = df.sort_values(by='Date')
-
-    df = df.fillna(df.mean())
-
-    df['month'] = df['Date'].dt.month
-    df['day'] = df['Date'].dt.day
-    df['hour'] = df['Date'].dt.hour
-    df['day_of_week'] = df['Date'].dt.dayofweek
+    ru_holidays = holidays.RU()
+    df["holidays"] = df[date].transform(lambda x: int(x.replace(hour=0) in ru_holidays))
 
     if fill_target:
         df[target_name] = 0
 
-    df = df[['Date', 'month', 'day', 'hour', 'baropressure', \
-             'humidity', 'temperature', 'winddirection', \
-             'windspeed', 'n', 'day_of_week', 'ST']]
-    return df
-
-def normalize_data(data, mean=None, std=None):
-    if mean is None:
-        mean = torch.mean(data, dim=0)
-    if std is None:
-        std = torch.std(data, dim=0)
-    normalized_data = (data - mean) / std
-    return normalized_data, (mean, std)
+    d = ["month", "day", "day_of_week", "hour"]
+    d.append("holidays")
+    d.extend(used_features)
+    d.append(target_name)
+    return df[d]

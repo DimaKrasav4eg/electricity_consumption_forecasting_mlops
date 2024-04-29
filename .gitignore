@@ -12,5 +12,8 @@ __pycache__
 # jupyter notebooks
 *.ipynb
 
-# hydra outputs
+# logs
+.logs
 outputs
+mlruns
+lightning_logs

@@ -1,41 +1,61 @@
 data:
   train_path: '.data/train.csv'
   test_path: '.data/test.csv'
-  submit_path: '.data/submition.csv'
+  submit_path: '.data'
+  submit_name: 'submition.csv'
+  ans_path: '.data/solution.csv'
   ratio:
-    train: 0.8
-    val: 0.1
-    test: 0.1
-  lseq: 24
-  step: 6
+    train: 0.7
+    val: 0.3
+  lseq: 12
+  step: 12
+  augment: 2
+  target: 'ST'
+  used_features: ['baropressure',
+                  'humidity',
+                  'temperature',
+                  'winddirection',
+                  'windspeed',
+                  'n']
+  date: 'Date'
+  nfeats: 11
+  use_target_in_params: False
+  hours_in_month: 720
+  hours_in_day: 24
 
 model:
-  name: 'cnn_latm.pt'
   params:
     conv:
-      nlayers: 3
-      out_channels: [128, 256, 512]
-      kernels: [2, 2, 2]
-      strides: [1, 1, 1]
-      paddings: [1, 1, 0]
-      max_pool:
-        kernel_size: [2, 2, 2]
-        stride: [2, 2, 2]
-      dropout: 0.1
-
-    rnn:
-      hidden_size: 512
-      nlayers: 3
+      n_channels: [128, 256]
+      kernels: [4, 4]
+      padding: [0, 1]
+      maxpool: [2, 2]
       dropout: 0.1
 
     lin:
-      nlayers: 3
-      out_sizes: [128, 32]
+      size: [256, 128]
       dropout: 0.1
 
 
 training:
-  batch_size: 50
+  batch_size: 64
   lr: 1e-3
+  lr_factor: 1
+  clip_val: 0.5
+  weight_decay: 0
   n_epochs: 50
-  save_path: 'checkpoints'
+  accelerator: cpu
+  full_deterministic_mode: True
+  log_every_n_steps: 1
+  num_workers: 7
+
+artifacts:
+  experiment_name: 'conv'
+  checkpoint:
+    dirpath: 'checkpoints'
+    filename: 'best'
+    save_top_k: 1
+    every_n_epochs: 10
+    save_last: True
+    file_ext: '.ckpt'
+  mlflow_url: 'http://127.0.0.1:8080'
