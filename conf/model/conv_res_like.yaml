@@ -1,0 +1,12 @@
+name: 'conv_res_like'
+params:
+  conv:
+    n_channels: [128, 256, 128]
+    kernels: [3, 3, 3]
+    padding: [1, 1, 1]
+    maxpool: [2, 2]
+    dropout: 0.2
+
+  lin:
+    size: [64]
+    dropout: 0.2

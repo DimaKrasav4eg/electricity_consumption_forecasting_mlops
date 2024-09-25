@@ -1,0 +1,5 @@
+name: lstm
+params:
+  hidden_size: 128
+  nlayers: 3
+  dropout: 0.2

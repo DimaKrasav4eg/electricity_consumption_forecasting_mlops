@@ -1,0 +1,12 @@
+name: 'conv_gru'
+params:
+  conv:
+    n_channels: [32, 32, 32, 16]
+    kernels: [2, 2, 2, 2]
+    padding: [0, 0, 0, 0]
+    maxpool: [2, 2]
+    dropout: 0.2
+
+  lin:
+    size: [256, 64]
+    dropout: 0.2

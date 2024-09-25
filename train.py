@@ -3,7 +3,7 @@ import os
 import hydra
 import lightning.pytorch as pl
 from elforecast.data import ElForecastDataModule
-from elforecast.models import ConvLin
+from elforecast.models import Selector
 from lightning.pytorch.loggers import MLFlowLogger
 from omegaconf import DictConfig
 
@@ -11,10 +11,10 @@ from omegaconf import DictConfig
 @hydra.main(config_path="conf", config_name="config", version_base="1.3")
 def main(cfg: DictConfig) -> None:
     dm = ElForecastDataModule(cfg)
-    model = ConvLin(cfg)
+    model = Selector(cfg)
 
     logger = MLFlowLogger(
-        experiment_name=cfg.artifacts.experiment_name,
+        experiment_name=cfg.model.name,
         tracking_uri=cfg.artifacts.mlflow_url,
     )
 
@@ -22,8 +22,8 @@ def main(cfg: DictConfig) -> None:
         pl.callbacks.DeviceStatsMonitor(),
         pl.callbacks.LearningRateMonitor(logging_interval="step"),
         pl.callbacks.ModelCheckpoint(
-            os.path.join(cfg.artifacts.checkpoint.dirpath, cfg.artifacts.experiment_name),
-            filename=cfg.artifacts.checkpoint.filename,
+            os.path.join(cfg.artifacts.checkpoint.dirpath, cfg.model.name),
+            filename=cfg.model.name,
             save_top_k=cfg.artifacts.checkpoint.save_top_k,
             every_n_epochs=cfg.artifacts.checkpoint.every_n_epochs,
             save_last=cfg.artifacts.checkpoint.save_last,

@@ -1,0 +1,2 @@
+model_registry:
+  gru: elforecast.models.gru
